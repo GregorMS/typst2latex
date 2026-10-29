@@ -1,17 +1,33 @@
 # typst2latex – Offline-Konverter für die DGL-Klausur
 
 Schreibt Mathe in **Typst**-Syntax, rendert es im Jupyter-Notebook als LaTeX.
-Läuft **komplett offline** – alles Nötige liegt in diesem Ordner.
+Läuft **komplett offline** – es wird nur pandoc als Binary in diesem Ordner
+gebraucht (siehe unten, wie man sie bekommt).
 
 ## Enthaltene Dateien
 
 | Datei | Zweck |
 | --- | --- |
 | `typst2latex.py` | Der Wrapper (Import im Notebook) |
-| `pandoc-windows-amd64.exe` | pandoc für Windows |
-| `pandoc-linux-amd64` | pandoc für Linux x86_64 (vermutlich das richtige für die VM) |
-| `pandoc-linux-arm64` | pandoc für Linux ARM64 (falls die VM ARM ist) |
 | `test_typst2latex.py` | Selbsttest |
+| `pandoc-*-…` | pandoc-Binaries (nicht im Repo, selbst herunterladen – siehe nächster Abschnitt) |
+
+## pandoc-Binaries herunterladen
+
+Die pandoc-Binaries sind zu groß für GitHub (>100 MB) und liegen deshalb
+**nicht im Repo**. Sie müssen einmalig in diesen Ordner gelegt werden:
+
+1. Gewünschte Architektur auf der VM prüfen: `uname -m`
+   (`x86_64` → amd64, `aarch64` → arm64; unter Windows immer amd64)
+2. Von <https://github.com/jgm/pandoc/releases> die Datei
+   `pandoc-<ver>-linux-<arch>.tar.gz` (bzw. für Windows
+   `pandoc-<ver>-windows-amd64.zip`) herunterladen
+3. Entpacken und die Binary `bin/pandoc` in diesen Ordner legen, umbenannt:
+   - `pandoc-linux-amd64` (Linux x86_64 – vermutlich das richtige für die VM)
+   - `pandoc-linux-arm64` (Linux ARM64)
+   - `pandoc-windows-amd64.exe` (Windows)
+
+Die Dateinamen sind wichtig – der Wrapper sucht genau nach diesen.
 
 Der Wrapper sucht automatisch die passende Binary für das laufende System
 (Windows/Linux, amd64/arm64). Fehlt das Exec-Bit (z. B. nach USB-Kopie unter
@@ -122,7 +138,7 @@ Fälle – nicht vertauschen.
 ## falls pandoc gar nicht läuft
 
 Falls die VM-Architektur anders ist als mitgebracht: `uname -m` auf der VM
-prüfen und vor der Klausur die passende Binary von
-<https://github.com/jgm/pandoc/releases> herunterladen (Datei
-`pandoc-<ver>-linux-<arch>.tar.gz`, darin `bin/pandoc`) und in diesen Ordner
-legen als `pandoc-linux-<arch>`.
+prüfen und die passende Binary gemäß Abschnitt „pandoc-Binaries
+herunterladen" von <https://github.com/jgm/pandoc/releases> herunterladen
+(Datei `pandoc-<ver>-linux-<arch>.tar.gz`, darin `bin/pandoc`) und in diesen
+Ordner legen als `pandoc-linux-<arch>`.
